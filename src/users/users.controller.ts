@@ -1,40 +1,43 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common'
-import { UsersService } from './users.service'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common'
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
+import { ApiPaginatedResponse } from '../config/pagination/decorators/api-paginated-response.decorator'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
-import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger'
-import { ApiPaginatedResponse } from '../pagination/decorators/api-paginated-response.decorator'
-import { PageDto, PerPageDto } from '../pagination/dto/paginated-query.dto'
+import { UserDto } from './dto/user.dto'
+import { UsersService } from './users.service'
 
 @ApiBearerAuth()
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto)
-  }
-
   @Get()
-  @ApiPaginatedResponse(CreateUserDto /* temp */)
-  @ApiQuery({ name: 'page', type: PageDto })
-  @ApiQuery({ name: 'perPage', type: PerPageDto })
+  @ApiPaginatedResponse(UserDto)
   findAll(@Query('page') page: number = 1, @Query('perPage') perPage: number = 10) {
     return this.usersService.findAll({ page, perPage })
   }
 
   @Get(':id')
+  @ApiOkResponse({ type: UserDto })
   findOne(@Param('id') id: string) {
     return this.usersService.findOne({ id: +id })
   }
 
+  @Post()
+  @ApiCreatedResponse({ type: UserDto })
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto)
+  }
+
   @Patch(':id')
+  @ApiOkResponse({ type: UserDto })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update({ where: { id: +id }, data: updateUserDto })
   }
 
   @Delete(':id')
+  @ApiOkResponse({ type: UserDto })
   remove(@Param('id') id: string) {
     return this.usersService.remove({ id: +id })
   }

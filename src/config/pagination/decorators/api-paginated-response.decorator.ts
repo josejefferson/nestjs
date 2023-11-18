@@ -1,8 +1,11 @@
 import { Type, applyDecorators } from '@nestjs/common'
-import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger'
+import { ApiExtraModels, ApiOkResponse, ApiQuery, getSchemaPath } from '@nestjs/swagger'
+import { PageDto, PerPageDto } from '../dto/paginated-query.dto'
 
 export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
   return applyDecorators(
+    ApiQuery({ name: 'page', type: PageDto }),
+    ApiQuery({ name: 'perPage', type: PerPageDto }),
     ApiExtraModels(model),
     ApiOkResponse({
       schema: {
@@ -22,10 +25,9 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) =>
                 type: 'object',
                 properties: {
                   total: { type: 'number' },
-                  page: { type: 'number' },
                   lastPage: { type: 'number' },
-                  perPage: { type: 'number' },
                   currentPage: { type: 'number' },
+                  perPage: { type: 'number' },
                   prev: { type: 'number' },
                   next: { type: 'number' }
                 }

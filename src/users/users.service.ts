@@ -1,13 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { CreateUserDto } from './dto/create-user.dto'
-import { UpdateUserDto } from './dto/update-user.dto'
 // import { User } from './entities/user.entity'
-import { User, Prisma } from '@prisma/client'
-import { PrismaService } from '../prisma/prisma.service'
+import { Prisma, User } from '@prisma/client'
 import { createPaginator } from 'prisma-pagination'
-import { PaginatedOutputDto } from '../pagination/dto/paginated-output.dto'
+import { PaginatedOutputDto } from '../config/pagination/dto/paginated-output.dto'
+import { PrismaService } from '../config/prisma/prisma.service'
 
 @Injectable()
 export class UsersService {
@@ -20,7 +16,7 @@ export class UsersService {
     where?: Prisma.UserWhereInput
     orderBy?: Prisma.UserOrderByWithRelationInput
   }): Promise<PaginatedOutputDto<User>> {
-    const { page, perPage, cursor, where, orderBy } = params
+    const { page, perPage, where, orderBy } = params
     const paginate = createPaginator({ perPage })
     return paginate(this.prisma.user, { where, orderBy }, { page })
   }
@@ -37,13 +33,9 @@ export class UsersService {
     })
   }
 
-  // findOneByUsername(username: string) {
-  //   return this.userRepository
-  //     .createQueryBuilder('user')
-  //     .where({ username })
-  //     .addSelect('user.password')
-  //     .getOne()
-  // }
+  findOneByUsername(username: string) {
+    return this.findOne({ username })
+  }
 
   update(params: {
     where: Prisma.UserWhereUniqueInput

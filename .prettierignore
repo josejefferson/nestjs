@@ -1,0 +1,5 @@
+yarn.lock
+/prisma/
+/dist/
+/node_modules/
+/.db/

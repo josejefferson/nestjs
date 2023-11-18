@@ -11,17 +11,18 @@ export class AuthService {
   ) {}
 
   async signIn(username, password) {
-    // const user = await this.usersService.findOneByUsername(username)
-    // console.log(user)
-    // if (!user) {
-    //   throw new UnauthorizedException()
-    // }
-    // const passwordMatch = await bcrypt.compare(password, user.password)
-    // if (!passwordMatch) {
-    //   throw new UnauthorizedException()
-    // }
-    // const payload = { sub: user.id, username: user.username }
-    // const jwt = await this.jwtService.signAsync(payload)
-    // return { jwt, user }
+    const user = await this.usersService.findOneByUsername(username)
+    if (!user) {
+      throw new UnauthorizedException()
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password)
+    if (!passwordMatch) {
+      throw new UnauthorizedException()
+    }
+
+    const payload = { sub: user.id, username: user.username }
+    const jwt = await this.jwtService.signAsync(payload)
+    return { jwt, user }
   }
 }
