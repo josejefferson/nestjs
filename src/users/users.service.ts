@@ -6,6 +6,8 @@ import { PrismaService } from '../config/prisma/prisma.service'
 
 @Injectable()
 export class UsersService {
+  model = this.prisma.user
+
   constructor(private prisma: PrismaService) {}
 
   findAllPaginated(
@@ -15,42 +17,48 @@ export class UsersService {
     orderBy?: Prisma.UserOrderByWithRelationInput
   ): Promise<PaginatedOutputDto<User>> {
     const paginate = createPaginator({ perPage })
-    return paginate(this.prisma.user, { where, orderBy }, { page })
+    return paginate(this.model, { where, orderBy }, { page })
   }
 
   findAll(where?: Prisma.UserWhereInput): Promise<User[]> {
-    return this.prisma.user.findMany({
+    return this.model.findMany({
       where
     })
   }
 
+  findById(id: User['id']): Promise<User | null> {
+    return this.model.findUnique({
+      where: { id }
+    })
+  }
+
   findOne(where: Prisma.UserWhereUniqueInput): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    return this.model.findUnique({
       where
     })
   }
 
   create(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prisma.user.create({
+    return this.model.create({
       data
     })
   }
 
   update(where: Prisma.UserWhereUniqueInput, data: Prisma.UserUpdateInput): Promise<User> {
-    return this.prisma.user.update({
+    return this.model.update({
       data,
       where
     })
   }
 
   remove(where: Prisma.UserWhereUniqueInput) {
-    return this.prisma.user.delete({
+    return this.model.delete({
       where
     })
   }
 
   count(where?: Prisma.UserWhereInput): Promise<number> {
-    return this.prisma.user.count({
+    return this.model.count({
       where
     })
   }
