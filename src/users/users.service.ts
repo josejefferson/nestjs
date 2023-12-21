@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
 import { createPaginator } from 'prisma-pagination'
 import { PaginatedOutputDto } from '../config/pagination/dto/paginated-output.dto'
 import { PrismaService } from '../config/prisma/prisma.service'
+import { UserDto } from './dto/user.dto'
 
 @Injectable()
 export class UsersService {
@@ -10,7 +11,7 @@ export class UsersService {
 
   constructor(private prisma: PrismaService) {}
 
-  findAllPaginated(
+  async findAllPaginated(
     page: number,
     perPage: number,
     where?: Prisma.UserWhereInput,
@@ -20,50 +21,44 @@ export class UsersService {
     return paginate(this.model, { where, orderBy }, { page })
   }
 
-  findAll(where?: Prisma.UserWhereInput): Promise<User[]> {
-    return this.model.findMany({
-      where
-    })
+  async findAll(where?: Prisma.UserWhereInput): Promise<User[]> {
+    const result = await this.model.findMany({ where })
+    return result
   }
 
-  findById(id: User['id']): Promise<User | null> {
-    return this.model.findUnique({
-      where: { id }
-    })
+  async findOne(where: Prisma.UserWhereUniqueInput): Promise<User | null> {
+    const result = await this.model.findUnique({ where })
+    if (!result) throw new NotFoundException('User not found')
+    return result
   }
 
-  findOne(where: Prisma.UserWhereUniqueInput): Promise<User | null> {
-    return this.model.findUnique({
-      where
-    })
+  async create(data: Prisma.UserCreateInput, authUser: UserDto): Promise<User> {
+    const result = await this.model.create({ data })
+    return result
   }
 
-  create(data: Prisma.UserCreateInput): Promise<User> {
-    return this.model.create({
-      data
-    })
+  async update(
+    where: Prisma.UserWhereUniqueInput,
+    data: Prisma.UserUpdateInput,
+    authUser: UserDto
+  ): Promise<User> {
+    const result = await this.model.update({ data, where })
+    if (!result) throw new NotFoundException('User not found')
+    return result
   }
 
-  update(where: Prisma.UserWhereUniqueInput, data: Prisma.UserUpdateInput): Promise<User> {
-    return this.model.update({
-      data,
-      where
-    })
+  async remove(where: Prisma.UserWhereUniqueInput) {
+    const result = await this.model.delete({ where })
+    return result
   }
 
-  remove(where: Prisma.UserWhereUniqueInput) {
-    return this.model.delete({
-      where
-    })
+  async count(where?: Prisma.UserWhereInput): Promise<number> {
+    const result = await this.model.count({ where })
+    return result
   }
 
-  count(where?: Prisma.UserWhereInput): Promise<number> {
-    return this.model.count({
-      where
-    })
-  }
-
-  findOneByUsername(username: string) {
-    return this.findOne({ username })
+  async findOneByUsername(username: string) {
+    const result = await this.findOne({ username })
+    return result
   }
 }

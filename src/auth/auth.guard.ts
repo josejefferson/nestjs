@@ -4,6 +4,8 @@ import { Request } from 'express'
 import { jwtConstants } from 'src/config/jwt'
 import { JWTPayload } from './auth.types'
 import { UsersService } from 'src/users/users.service'
+import { UserDto } from 'src/users/dto/user.dto'
+import { plainToInstance } from 'class-transformer'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -18,7 +20,7 @@ export class AuthGuard implements CanActivate {
     const payload = await this.validateToken(token)
     const user = await this.validateUser(payload.id)
 
-    request['user'] = user
+    request['authUser'] = plainToInstance(UserDto, user)
 
     return true
   }
@@ -48,5 +50,6 @@ export class AuthGuard implements CanActivate {
     if (!user) {
       throw new UnauthorizedException('The authenticated user no longer exists')
     }
+    return user
   }
 }
