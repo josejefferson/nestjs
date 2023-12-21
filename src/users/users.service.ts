@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common'
-// import { User } from './entities/user.entity'
 import { Prisma, User } from '@prisma/client'
 import { createPaginator } from 'prisma-pagination'
 import { PaginatedOutputDto } from '../config/pagination/dto/paginated-output.dto'
@@ -9,21 +8,25 @@ import { PrismaService } from '../config/prisma/prisma.service'
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  findAll(params: {
-    page?: number
-    perPage?: number
-    cursor?: Prisma.UserWhereUniqueInput
-    where?: Prisma.UserWhereInput
+  findAllPaginated(
+    page: number,
+    perPage: number,
+    where?: Prisma.UserWhereInput,
     orderBy?: Prisma.UserOrderByWithRelationInput
-  }): Promise<PaginatedOutputDto<User>> {
-    const { page, perPage, where, orderBy } = params
+  ): Promise<PaginatedOutputDto<User>> {
     const paginate = createPaginator({ perPage })
     return paginate(this.prisma.user, { where, orderBy }, { page })
   }
 
-  findOne(userWhereUniqueInput: Prisma.UserWhereUniqueInput): Promise<User> {
+  findAll(where?: Prisma.UserWhereInput): Promise<User[]> {
+    return this.prisma.user.findMany({
+      where
+    })
+  }
+
+  findOne(where: Prisma.UserWhereUniqueInput): Promise<User | null> {
     return this.prisma.user.findUnique({
-      where: userWhereUniqueInput
+      where
     })
   }
 
@@ -33,15 +36,7 @@ export class UsersService {
     })
   }
 
-  findOneByUsername(username: string) {
-    return this.findOne({ username })
-  }
-
-  update(params: {
-    where: Prisma.UserWhereUniqueInput
-    data: Prisma.UserUpdateInput
-  }): Promise<User> {
-    const { where, data } = params
+  update(where: Prisma.UserWhereUniqueInput, data: Prisma.UserUpdateInput): Promise<User> {
     return this.prisma.user.update({
       data,
       where
@@ -52,5 +47,15 @@ export class UsersService {
     return this.prisma.user.delete({
       where
     })
+  }
+
+  count(where?: Prisma.UserWhereInput): Promise<number> {
+    return this.prisma.user.count({
+      where
+    })
+  }
+
+  findOneByUsername(username: string) {
+    return this.findOne({ username })
   }
 }

@@ -11,7 +11,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async signIn(username, password) {
+  async signIn(username: string, password: string) {
     const user = await this.usersService.findOneByUsername(username)
     if (!user) {
       throw new UnauthorizedException('Invalid credentials')
@@ -23,7 +23,7 @@ export class AuthService {
     }
 
     const payload: JWTPayload = { id: user.id, username: user.username }
-    const jwt = await this.jwtService.signAsync(payload)
+    const jwt = await this.jwtService.signAsync(payload, { expiresIn: '30d' })
     return { jwt, user }
   }
 }

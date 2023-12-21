@@ -5,22 +5,58 @@ import * as bcrypt from 'bcrypt'
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
   async onModuleInit() {
-    this.includeHashPasswordMiddleware()
+    // this.$use(this.excludeFieldsMiddleware())
+    Object.assign(this, this.withHashPassword())
     await this.$connect()
   }
 
-  includeHashPasswordMiddleware() {
-    const models = ['User']
-    const methods = ['create', 'createMany', 'update', 'updateMany']
-    const rounds = 12
+  private withHashPassword() {
+    const hashPasswordMiddleware = async ({ args, query }: any) => {
+      const rounds = 12
+      if (!args.data.password) return query(args)
+      const hashedPassword = await bcrypt.hash(args.data.password, rounds)
+      args.data.password = hashedPassword
+      return query(args)
+    }
 
-    this.$use(async (params, next) => {
-      if (!models.includes(params.model)) return next(params)
-      if (!methods.includes(params.action)) return next(params)
-      if (!params.args.data.password) return next(params)
-      const hashedPassword = await bcrypt.hash(params.args.data.password, rounds)
-      params.args.data.password = hashedPassword
-      return next(params)
+    return this.$extends({
+      query: {
+        user: {
+          create: hashPasswordMiddleware,
+          update: hashPasswordMiddleware,
+          updateMany: hashPasswordMiddleware
+        }
+      }
     })
   }
+
+  // private withExcludeFields() {
+  //   // const hashPasswordMiddleware = async ({ args, query }: any) => {
+  //   //   const rounds = 12
+  //   //   if (!args.data.password) return query(args)
+  //   //   const hashedPassword = await bcrypt.hash(args.data.password, rounds)
+  //   //   args.data.password = hashedPassword
+  //   //   return query(args)
+  //   // }
+
+  //   return this.$extends({
+  //     query: {
+  //       $allModels: {
+  //         findMany: ({ model, operation, args, query }) => {
+            
+  //           return query(args)
+  //         }
+  //       }
+  //     }
+  //   })
+  // }
+
+  // private excludeFieldsMiddleware(): Prisma.Middleware {
+  //   return async (params, next) => {
+  //     const result = await next(params)
+  //     // if (params.args?.select?.password)
+  //     // if (params.model === 'User') delete result.password
+  //     return result
+  //   }
+  // }
 }

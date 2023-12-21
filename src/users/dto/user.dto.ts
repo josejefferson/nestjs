@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { Exclude } from 'class-transformer'
 
 export class UserDto {
   @ApiProperty({ example: 1 })
@@ -11,5 +12,6 @@ export class UserDto {
   idade: number
 
   @ApiProperty({ example: '$2b$12$SQFWKFRiYP6JdcyUX30iSOTMh.FAlKU0Mpt16x1cwVR392Z/MaMIK' })
+  @Exclude()
   password: string
 }
