@@ -4,8 +4,8 @@ import { Request } from 'express'
 import { jwtConstants } from 'src/config/jwt'
 import { JWTPayload } from './auth.types'
 import { UsersService } from 'src/users/users.service'
-import { UserDto } from 'src/users/dto/user.dto'
 import { plainToInstance } from 'class-transformer'
+import { User } from 'src/users/users.entity'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
     const payload = await this.validateToken(token)
     const user = await this.validateUser(payload.id)
 
-    request['authUser'] = plainToInstance(UserDto, user)
+    request['authUser'] = plainToInstance(User, user)
 
     return true
   }

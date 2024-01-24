@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { UserDto } from 'src/users/dto/user.dto'
+import { User } from 'src/users/users.entity'
 
 export class SignInResponseDto {
   @ApiProperty({
@@ -9,5 +9,5 @@ export class SignInResponseDto {
   jwt: string
 
   @ApiProperty()
-  user: UserDto
+  user: User
 }

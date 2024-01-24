@@ -3,14 +3,10 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
-  Query,
-  UnauthorizedException,
   UseGuards,
-  UseInterceptors
 } from '@nestjs/common'
 import {
   ApiBearerAuth,
@@ -20,14 +16,17 @@ import {
   ApiTags,
   ApiUnauthorizedResponse
 } from '@nestjs/swagger'
+import {
+  ApiOkPaginatedResponse,
+  ApiPaginationQuery,
+  Paginate,
+  PaginateQuery
+} from 'nestjs-paginate'
+// import { AuthUser } from 'src/auth/auth-user.decorator'
 import { AuthGuard } from 'src/auth/auth.guard'
-import { TransformDataInterceptor } from 'src/interceptors/transform-data.interceptor'
-import { ApiPaginatedResponse } from '../config/pagination/decorators/api-paginated-response.decorator'
-import { CreateUserDto } from './dto/create-user.dto'
-import { UpdateUserDto } from './dto/update-user.dto'
-import { UserDto } from './dto/user.dto'
+import { CreateUserDto, UpdateUserDto } from './users.dto'
+import { User } from './users.entity'
 import { UsersService } from './users.service'
-import { AuthUser } from 'src/auth/auth-user.decorator'
 
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
@@ -38,39 +37,39 @@ export class UsersController {
   constructor(private readonly service: UsersService) {}
 
   @Get()
-  @UseInterceptors(new TransformDataInterceptor(UserDto))
-  @ApiPaginatedResponse(UserDto)
-  findAll(@Query('page') page: number = 1, @Query('perPage') perPage: number = 10) {
-    return this.service.findAllPaginated(page, perPage)
+  @ApiOkPaginatedResponse(User, {
+    sortableColumns: ['id', 'username', 'idade']
+  })
+  @ApiPaginationQuery({
+    sortableColumns: ['id', 'username', 'idade']
+  })
+  findAll(@Paginate() query: PaginateQuery) {
+    return this.service.findAllPaginated(query)
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: UserDto })
+  @ApiOkResponse({ type: User })
   @ApiNotFoundResponse()
-  @UseInterceptors(new TransformDataInterceptor(UserDto))
   findOne(@Param('id') id: number) {
     return this.service.findOne({ id })
   }
 
   @Post()
-  @ApiCreatedResponse({ type: UserDto })
-  @UseInterceptors(new TransformDataInterceptor(UserDto))
-  create(@Body() data: CreateUserDto, @AuthUser() authUser: UserDto) {
-    return this.service.create(data, authUser)
+  @ApiCreatedResponse({ type: User })
+  create(@Body() data: CreateUserDto /*, @AuthUser() authUser: User*/) {
+    return this.service.create(data /*, authUser*/)
   }
 
   @Patch(':id')
-  @ApiOkResponse({ type: UserDto })
+  @ApiOkResponse({ type: User })
   @ApiNotFoundResponse()
-  @UseInterceptors(new TransformDataInterceptor(UserDto))
-  update(@Param('id') id: number, @Body() data: UpdateUserDto, @AuthUser() authUser: UserDto) {
-    return this.service.update({ id }, data, authUser)
+  update(@Param('id') id: number, @Body() data: UpdateUserDto /*, @AuthUser() authUser: User*/) {
+    return this.service.update({ id }, data /*, authUser*/)
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: UserDto })
+  @ApiOkResponse({ type: User })
   @ApiNotFoundResponse()
-  @UseInterceptors(new TransformDataInterceptor(UserDto))
   remove(@Param('id') id: number) {
     return this.service.remove({ id })
   }

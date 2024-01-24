@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
 import { AuthModule } from './auth/auth.module'
-import { PrismaModule } from './config/prisma/prisma.module'
+import { ormConfig } from './config/orm'
 import { UsersModule } from './users/users.module'
 
 @Module({
-  imports: [UsersModule, AuthModule, PrismaModule]
+  imports: [TypeOrmModule.forRoot(ormConfig), UsersModule, AuthModule]
 })
 export class AppModule {}
