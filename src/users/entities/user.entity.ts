@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import * as bcrypt from 'bcrypt'
 import { Exclude } from 'class-transformer'
 import { IsInt, IsString } from 'class-validator'
-import { BaseEntity } from 'src/base/entities/base.entity'
+import { BaseEntity } from '../../base/entities/base.entity'
 import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm'
 
 @Entity()
