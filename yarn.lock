@@ -349,6 +349,36 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@dataui/crud-request@^5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@dataui/crud-request/-/crud-request-5.3.1.tgz#0c5f73d4ca95dc6638d4d17ceb691bd0716206b9"
+  integrity sha512-jiTRuFQbXV+rr71LF+nKyhKMw5wGctnha35nl3O3TYnE2ZsHx7ytQpeqVZK0TwHx8oE3oRU6V0iserVLMStRSw==
+  dependencies:
+    "@dataui/crud-util" "^5.3.1"
+    qs "^6.8.0"
+
+"@dataui/crud-typeorm@^5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@dataui/crud-typeorm/-/crud-typeorm-5.3.1.tgz#d8409c590a4e02bc4d4de6e8090695e667a41e30"
+  integrity sha512-JQISZUEbf5bc8hAauUFb4r9o1XcBYv2eiMJrO8d9Ym3Go0B6wlgFauz++yJyvnJJEEY/NTJ/c6y2pWRAbpgX5A==
+  dependencies:
+    "@zmotivat0r/o0" "^1.0.2"
+
+"@dataui/crud-util@^5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@dataui/crud-util/-/crud-util-5.3.1.tgz#ab9c01831ed7d6387b404981320425d676027190"
+  integrity sha512-6CzBJK5lDz5n7YJLWPbh8srtxpehxqPKJjJhJ80H6jGCSUp6WkWUelA7uhFo8CQRQ7De4XIRr8HoCffsfcyDcQ==
+
+"@dataui/crud@^5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@dataui/crud/-/crud-5.3.1.tgz#5ee3b2bf353ef1f87b6c33651bd426c8de8d985e"
+  integrity sha512-nqv/CaJFqvwrccoJEWcGc4bfyvmlnf8BGbGXP5jUnMrP648U7WCJcXcg8u1ooXVUFDOK5S52bA08iKbqMm3eAQ==
+  dependencies:
+    "@dataui/crud-request" "^5.3.1"
+    "@dataui/crud-util" "^5.3.1"
+    deepmerge "^3.2.0"
+    pluralize "^8.0.0"
+
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz#a23514e8fb9af1269d5f7788aa556798d61c6b59"

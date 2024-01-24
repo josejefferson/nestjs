@@ -46,7 +46,7 @@ export class AuthGuard implements CanActivate {
   }
 
   private async validateUser(id: JWTPayload['id']) {
-    const user = this.usersService.findOne({ id })
+    const user = this.usersService.findOne({ where: { id } })
     if (!user) {
       throw new UnauthorizedException('The authenticated user no longer exists')
     }

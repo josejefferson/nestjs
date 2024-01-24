@@ -6,6 +6,6 @@ import { ProductsModule } from './products/products.module'
 import { UsersModule } from './users/users.module'
 
 @Module({
-  imports: [TypeOrmModule.forRoot(ormConfig), UsersModule, AuthModule, ProductsModule]
+  imports: [TypeOrmModule.forRoot(ormConfig), AuthModule, UsersModule, ProductsModule]
 })
 export class AppModule {}

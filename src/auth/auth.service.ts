@@ -36,7 +36,7 @@ export class AuthService implements OnModuleInit {
     const userCount = await this.usersService.count()
     if (userCount === 0) {
       const user = { username: 'admin@admin.com', idade: 0, password: 'admin' }
-      await this.usersService.create(plainToInstance(CreateUserDto, user))
+      await this.usersService.repository.create(plainToInstance(CreateUserDto, user))
 
       this.logger.warn('Nenhum usuário cadastrado no sistema, um usuário foi criado')
       this.logger.warn('Login: "admin@admin.com"')
