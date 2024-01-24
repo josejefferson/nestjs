@@ -2,7 +2,7 @@ import { Injectable, Logger, OnModuleInit, UnauthorizedException } from '@nestjs
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { plainToInstance } from 'class-transformer'
-import { CreateUserDto } from 'src/users/users.dto'
+import { CreateUserDto } from 'src/users/dto/create-user.dto'
 import { UsersService } from '../users/users.service'
 import { JWTPayload } from './auth.types'
 

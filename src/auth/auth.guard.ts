@@ -5,7 +5,7 @@ import { jwtConstants } from 'src/config/jwt'
 import { JWTPayload } from './auth.types'
 import { UsersService } from 'src/users/users.service'
 import { plainToInstance } from 'class-transformer'
-import { User } from 'src/users/users.entity'
+import { User } from 'src/users/entities/user.entity'
 
 @Injectable()
 export class AuthGuard implements CanActivate {

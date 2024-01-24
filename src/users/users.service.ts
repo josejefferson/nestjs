@@ -2,8 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate'
 import { FindManyOptions, FindOptionsWhere, Repository } from 'typeorm'
-import { CreateUserDto, UpdateUserDto } from './users.dto'
-import { User } from './users.entity'
+import { CreateUserDto } from './dto/create-user.dto'
+import { User } from './entities/user.entity'
+import { UpdateUserDto } from './dto/update-user.dto'
 
 @Injectable()
 export class UsersService {

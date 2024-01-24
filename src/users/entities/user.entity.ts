@@ -1,15 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm'
-import { Exclude } from 'class-transformer'
-import * as bcrypt from 'bcrypt'
 import { ApiProperty } from '@nestjs/swagger'
+import * as bcrypt from 'bcrypt'
+import { Exclude } from 'class-transformer'
 import { IsInt, IsString } from 'class-validator'
+import { BaseEntity } from 'src/base/entities/base.entity'
+import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm'
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ example: 1 })
-  id: number
-
+export class User extends BaseEntity {
   @ApiProperty({ example: 'user@email.com' })
   @Column({ unique: true })
   @IsString()

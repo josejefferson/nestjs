@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -24,11 +15,12 @@ import {
 } from 'nestjs-paginate'
 // import { AuthUser } from 'src/auth/auth-user.decorator'
 import { AuthGuard } from 'src/auth/auth.guard'
-import { CreateUserDto, UpdateUserDto } from './users.dto'
-import { User } from './users.entity'
+import { CreateUserDto } from './dto/create-user.dto'
+import { User } from './entities/user.entity'
 import { UsersService } from './users.service'
+import { UpdateUserDto } from './dto/update-user.dto'
 
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiTags('users')
