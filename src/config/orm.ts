@@ -5,7 +5,8 @@ export const ormConfig: DataSourceOptions = {
   database: '.db/database.sqlite',
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/../migrations/*{.ts,.js}'],
-  migrationsRun: true
+  migrationsRun: true,
+  synchronize: true
 }
 
 const dataSource = new DataSource(ormConfig)
