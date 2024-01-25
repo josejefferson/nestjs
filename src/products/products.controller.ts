@@ -9,7 +9,12 @@ import { ProductsService } from './products.service'
 // @UseGuards(AuthGuard)
 @Crud({
   model: { type: Product },
-  dto: { create: CreateProductDto, update: UpdateProductDto }
+  dto: { create: CreateProductDto, update: UpdateProductDto },
+  query: {
+    join: {
+      category: { eager: true }
+    }
+  }
 })
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()

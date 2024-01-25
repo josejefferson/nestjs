@@ -32,7 +32,6 @@ export class User extends BaseEntity {
   @Exclude({ toPlainOnly: true })
   password: string
 
-  // @Column("int", {array:true})
   @ManyToMany(() => Product)
   @JoinTable()
   cart: Product[]
