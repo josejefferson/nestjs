@@ -5,8 +5,10 @@ export const swaggerConfig = new DocumentBuilder()
   .setDescription('API description')
   .addBearerAuth()
   .setVersion('1.0')
-  .addTag('users', 'Usuários')
   .addTag('authentication', 'Autenticação')
+  .addTag('users', 'Usuários')
+  .addTag('products', 'Produtos')
+  .addTag('categories', 'Categorias')
   .build()
 
 export const swaggerOptions: SwaggerCustomOptions = {
