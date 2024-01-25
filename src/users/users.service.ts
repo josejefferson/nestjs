@@ -11,7 +11,7 @@ export class UsersService extends TypeOrmCrudService<User> {
   }
 
   async findOneByUsername(username: string) {
-    const result = await this.findOne({ where: { username } })
+    const result = await this.findOne({ where: { username }, relations: ['cart'] })
     return result
   }
 }

@@ -1,12 +1,12 @@
 import { Crud, CrudController } from '@dataui/crud'
-import { Controller } from '@nestjs/common'
+import { Controller, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger'
+import { AuthGuard } from 'src/auth/auth.guard'
+import { CategoriesService } from './categories.service'
 import { CreateCategoryDto } from './dto/create-category.dto'
 import { UpdateCategoryDto } from './dto/update-category.dto'
 import { Category } from './entities/category.entity'
-import { CategoriesService } from './categories.service'
 
-// @UseGuards(AuthGuard)
 @Crud({
   model: { type: Category },
   dto: { create: CreateCategoryDto, update: UpdateCategoryDto },
@@ -16,6 +16,7 @@ import { CategoriesService } from './categories.service'
     }
   }
 })
+@UseGuards(AuthGuard)
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiTags('categories')
