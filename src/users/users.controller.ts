@@ -24,7 +24,7 @@ import { AuthRoles } from 'src/auth/auth-roles.decorator'
 @Controller('users')
 export class UsersController implements CrudController<User> {
   constructor(public service: UsersService) {}
-  
+
   @AuthRoles(['admin'])
   @UseGuards(AuthGuard, AuthRoleGuard)
   @Get('/test')
