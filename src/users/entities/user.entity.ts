@@ -43,4 +43,8 @@ export class User extends BaseEntity {
       this.password = bcrypt.hashSync(this.password, 12)
     }
   }
+
+  checkPassword(password: string) {
+    return bcrypt.compare(password, this.password)
+  }
 }
