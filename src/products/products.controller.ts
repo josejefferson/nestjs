@@ -1,7 +1,7 @@
 import { Crud, CrudController } from '@dataui/crud'
 import { Controller, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger'
-import { AuthGuard } from 'src/auth/auth.guard'
+import { AuthGuard } from '../auth/auth.guard'
 import { CreateProductDto } from './dto/create-product.dto'
 import { UpdateProductDto } from './dto/update-product.dto'
 import { Product } from './entities/product.entity'

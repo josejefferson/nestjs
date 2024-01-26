@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common'
-import { User } from 'src/users/entities/user.entity'
+import { User } from '../users/entities/user.entity'
 
 /** Returns the currently logged in user */
 export const AuthUser = createParamDecorator((data: unknown, ctx: ExecutionContext) => {

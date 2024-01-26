@@ -5,7 +5,7 @@ import { ChangePasswordDto } from './dto/change-password.dto'
 import { SignInResponseDto } from './dto/sign-in-response.dto'
 import { SignInDto } from './dto/sign-in.dto'
 import { AuthUser } from './auth-user.decorator'
-import { User } from 'src/users/entities/user.entity'
+import { User } from '../users/entities/user.entity'
 import { AuthGuard } from './auth.guard'
 
 @ApiTags('authentication')

@@ -1,7 +1,7 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 import { IsArray, IsString, ValidateNested } from 'class-validator'
-import { ID } from 'src/base/dto/id.dto'
+import { ID } from '../../base/dto/id.dto'
 import { User } from '../entities/user.entity'
 
 export class CreateUserDto extends OmitType(User, ['id', 'password', 'cart']) {

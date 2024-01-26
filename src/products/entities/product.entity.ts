@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsInt, IsNumber, IsString, IsUrl, Min } from 'class-validator'
 import { Column, Entity, ManyToOne } from 'typeorm'
 import { BaseEntity } from '../../base/entities/base.entity'
-import { Category } from 'src/categories/entities/category.entity'
+import { Category } from '../../categories/entities/category.entity'
 
 @Entity()
 export class Product extends BaseEntity {

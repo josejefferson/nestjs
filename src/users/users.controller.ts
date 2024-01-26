@@ -1,13 +1,13 @@
 import { Crud, CrudController } from '@dataui/crud'
 import { Controller, Get, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger'
-import { AuthGuard } from 'src/auth/auth.guard'
+import { AuthGuard } from '../auth/auth.guard'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
 import { UsersService } from './users.service'
-import { AuthRoleGuard } from 'src/auth/auth-role.guard'
-import { AuthRoles } from 'src/auth/auth-roles.decorator'
+import { AuthRoleGuard } from '../auth/auth-role.guard'
+import { AuthRoles } from '../auth/auth-roles.decorator'
 
 @Crud({
   model: { type: User },
