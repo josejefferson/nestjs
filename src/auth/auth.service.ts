@@ -1,7 +1,6 @@
 import { Injectable, Logger, OnModuleInit, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { plainToInstance } from 'class-transformer'
-import { CreateUserDto } from '../users/dto/create-user.dto'
 import { User } from '../users/entities/user.entity'
 import { UsersService } from '../users/users.service'
 import { JWTPayload } from './auth.types'
@@ -18,8 +17,14 @@ export class AuthService implements OnModuleInit {
   async onModuleInit() {
     const userCount = await this.usersService.count()
     if (userCount === 0) {
-      const user = { username: 'admin@admin.com', idade: 0, password: 'admin' }
-      await this.usersService.repository.create(plainToInstance(CreateUserDto, user))
+      await this.usersService.repository.insert(
+        plainToInstance(User, {
+          name: 'Admin',
+          username: 'admin@admin.com',
+          role: 'admin',
+          password: 'admin'
+        })
+      )
 
       this.logger.warn('Nenhum usuário cadastrado no sistema, um usuário foi criado')
       this.logger.warn('Login: "admin@admin.com"')
